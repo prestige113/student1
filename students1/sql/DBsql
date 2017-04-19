@@ -10,7 +10,7 @@ CREATE TABLE students.`region` (
   `country` int(11) NOT NULL,
   PRIMARY KEY (`id_region`),
   KEY `fk_country_idx` (`country`),
-  CONSTRAINT `fk_country` FOREIGN KEY (`country`) REFERENCES `country` (`id_country`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `fk_country` FOREIGN KEY (`id_country`) REFERENCES `country` (`id_country`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ;
 CREATE TABLE students.`city` (
   `id_city` int(11) NOT NULL,
