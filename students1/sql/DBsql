@@ -1,32 +1,55 @@
 
-CREATE TABLE students.`country` (
-  `id_country` int(11) NOT NULL,
-  `country_name` varchar(80) NOT NULL,
-  PRIMARY KEY (`id_country`)
-) ;
-CREATE TABLE students.`region` (
-  `id_region` int(11) NOT NULL,
-  `region_name` varchar(80) NOT NULL,
-  `country` int(11) NOT NULL,
-  PRIMARY KEY (`id_region`),
-  KEY `fk_country_idx` (`country`),
-  CONSTRAINT `fk_country` FOREIGN KEY (`id_country`) REFERENCES `country` (`id_country`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ;
-CREATE TABLE students.`city` (
-  `id_city` int(11) NOT NULL,
-  `city_name` varchar(80) NOT NULL,
-  `id_region` int(11) NOT NULL,
-  PRIMARY KEY (`id_city`),
-  KEY `fk_region_idx` (`id_region`),
-  CONSTRAINT `fk_region` FOREIGN KEY (`id_region`) REFERENCES `region` (`id_region`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ;
+/*==============================================================*/
+create table city (
+   id_city              serial               not null,
+   id_region            INT4                 null,
+   name                 VARCHAR(255)         null,
+   constraint PK_CITY primary key (id_city)
+);
 
-CREATE TABLE students.`student` (
-  `id_student` int(11) NOT NULL,
-  `fio` varchar(120) NOT NULL,
-  `id_city` int(11) NOT NULL,
-  PRIMARY KEY (`id_student`),
-  KEY `studentcity_idx` (`id_city`),
-  CONSTRAINT `fk_studcity` FOREIGN KEY (`id_city`) REFERENCES `city` (`id_city`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ;
+/*==============================================================*/
+/* Table: country                                               */
+/*==============================================================*/
+create table country (
+   id_country           serial               not null,
+   name                 VARCHAR(255)         null,
+   constraint PK_COUNTRY primary key (id_country)
+);
+
+/*==============================================================*/
+/* Table: region                                                */
+/*==============================================================*/
+create table region (
+   id_region            serial               not null,
+   id_country           INT4                 null,
+   name                 VARCHAR(255)         null,
+   constraint PK_REGION primary key (id_region)
+);
+
+/*==============================================================*/
+/* Table: student                                               */
+/*==============================================================*/
+create table student (
+   id_student           SERIAL               not null,
+   id_city              INT4                 null,
+   first_name           VARCHAR(255)         null,
+   second_name          VARCHAR(255)         null,
+   constraint PK_STUDENT primary key (id_student)
+);
+
+alter table city
+   add constraint FK_city_Reference_2_region foreign key (id_region)
+      references region (id_region)
+      on delete restrict on update restrict;
+
+alter table region
+   add constraint FK_region_Reference_1_country foreign key (id_country)
+      references country (id_country)
+      on delete restrict on update restrict;
+
+alter table student
+   add constraint FK_student_Reference_3_city foreign key (id_city)
+      references city (id_city)
+      on delete restrict on update restrict;
+
 
