@@ -1,0 +1,32 @@
+
+CREATE TABLE students.`country` (
+  `id_country` int(11) NOT NULL,
+  `country_name` varchar(80) NOT NULL,
+  PRIMARY KEY (`id_country`)
+) ;
+CREATE TABLE students.`region` (
+  `id_region` int(11) NOT NULL,
+  `region_name` varchar(80) NOT NULL,
+  `country` int(11) NOT NULL,
+  PRIMARY KEY (`id_region`),
+  KEY `fk_country_idx` (`country`),
+  CONSTRAINT `fk_country` FOREIGN KEY (`country`) REFERENCES `country` (`id_country`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ;
+CREATE TABLE students.`city` (
+  `id_city` int(11) NOT NULL,
+  `city_name` varchar(80) NOT NULL,
+  `id_region` int(11) NOT NULL,
+  PRIMARY KEY (`id_city`),
+  KEY `fk_region_idx` (`id_region`),
+  CONSTRAINT `fk_region` FOREIGN KEY (`id_region`) REFERENCES `region` (`id_region`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ;
+
+CREATE TABLE students.`student` (
+  `id_student` int(11) NOT NULL,
+  `fio` varchar(120) NOT NULL,
+  `id_city` int(11) NOT NULL,
+  PRIMARY KEY (`id_student`),
+  KEY `studentcity_idx` (`id_city`),
+  CONSTRAINT `fk_studcity` FOREIGN KEY (`id_city`) REFERENCES `city` (`id_city`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ;
+
